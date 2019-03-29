@@ -5,6 +5,23 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    {{{body}}}
+    <header>
+      <h1>{{title}}</h1>
+      {{#if user}}
+        <h2>
+          Signed in as {{user.profile.firstName}} {{user.profile.lastName}}
+        </h2>
+      {{/if}}
+      {{#if user}}
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/logout">Sign out</a>
+      {{else}}
+        <a href="/login">Sign in</a>
+      {{/if}}
+    </header>
+    <main>
+      {{{body}}}
+    </main>
   </body>
 </html>
