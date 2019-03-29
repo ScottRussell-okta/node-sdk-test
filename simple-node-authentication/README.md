@@ -1,5 +1,5 @@
 
-*Node.JS testing environment. Reworked from https://developer.okta.com/blog/2018/04/24/simple-node-authentication
+*Node.JS testing environment. Reworked from https://developer.okta.com/blog/2018/04/24/simple-node-authentication*
 
 *Simple Node Authentication
 
