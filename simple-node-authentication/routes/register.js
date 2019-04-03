@@ -6,6 +6,8 @@ const router = express.Router()
 const client = new okta.Client({
   orgUrl: process.env.ORG_URL,
   token: process.env.REGISTRATION_TOKEN,
+  cacheMiddleware: null,
+  //requestExecutor: new okta.DefaultRequestExecutor()
 })
 
 const title = 'Create an account'
@@ -16,6 +18,41 @@ router.get('/', (req, res, next) => {
   }
 
   res.render('register', { title })
+})
+//userId : 00udcvprvgKxSnPYm356
+router.get('/search', async (req, res, next) => {
+  try{
+    client.listUsers({
+      search: 'profile.login eq "tom.jones@mailinator.com"'
+    }).each(user => {
+      console.log(': User matches search:', user.id);
+    })
+    // })
+    // .then(() => {
+    //   client.getUser('00udcvprvgKxSnPYm356')
+    //   .then(user => {
+    //     console.log(user);
+    //     client.listUsers({
+    //       search: 'profile.login eq "tom.jones@mailinator.com"'
+    //     }).each(user => {
+    //       console.log('User matches search:', user);
+    //     })
+    //   });
+  } catch ({ errorCauses }) {
+    const errors = errorCauses.reduce((summary, { errorSummary }) => {
+      if (/Password/.test(errorSummary)) {
+        return Object.assign({ password: errorSummary })
+      }
+
+      const [ field, error ] = /^(.+?): (.+)$/.exec(errorSummary)
+      return Object.assign({ [field]: error }, summary)
+    }, {})
+
+    console.log(errors)
+
+    res.render('search', { title, errors, body: req.body })
+  }
+  res.render('search')
 })
 
 router.post('/', async (req, res, next) => {

@@ -6,6 +6,7 @@ const client = new okta.Client({
 })
 
 const middleware = async (req, res, next) => {
+  console.log('middleware');
   if (req.userinfo) {
     try {
       req.user = await client.getUser(req.userinfo.sub)
